@@ -77,7 +77,7 @@ def get_parser():
     parser.add_argument('-P', '--password', required=True, help='Password.')
     parser.add_argument('-w', '--worker', type=int, default=5,
                         help='Worker number.')
-
+    parser.add_argument('--rec', metavar='REC', choices=['illust','manga'],default='illust',help='recommended illust/manga')
     parser.add_argument('--max-tries', type=int, default=5,
                         help='Max try times when fetch failed. '
                              'Set to 0 to try infinitely.')
@@ -90,6 +90,7 @@ def get_parser():
                             'ranking',
                             'search',
                             'related',
+                            'recommended'
                         ],
                         help='Task type. Available types:\n'
                              '    illust: Download a single illust.\n'
@@ -99,7 +100,8 @@ def get_parser():
                              '    ranking: Download illusts by ranking.\n'
                              '    search: Download illusts by searching.\n'
                              '    related: Download related illusts of '
-                             'specific one.\n')
+                             'specific one.\n'
+                             '    recommended: Download recommended illusts or mangas.\n')
     parser.add_argument('-i', '--illust-id', type=int,
                         help='Illust ID. Only used in \'illust\' and '
                              '\'related\' task.')
@@ -330,6 +332,10 @@ def cli(args):
 
         fetch_func = [queen.related_illusts]
         fetch_args = [(args.illust_id, args.limit)]
+    elif args.task == 'recommended':
+        print(args.rec)
+        fetch_func = [queen.recommended]
+        fetch_args = [(''.join(args.rec),)]
     else:
         return
 

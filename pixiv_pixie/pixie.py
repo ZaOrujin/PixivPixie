@@ -331,6 +331,24 @@ class PixivPixie:
 
     @query_set
     @_need_auth
+    def recommended(self,content_type='illust'):
+        '''Fetch all recommended illusts
+
+        Args:
+            content_type: could be
+                illust[default
+                manga
+        '''
+        for json_result in \
+                self._aapi_call(
+                    self._aapi.illust_recommended,
+                    content_type=content_type
+                ):
+            illust = PixivIllust.from_aapi(self, json_result)
+            yield illust
+
+    @query_set
+    @_need_auth
     def search(
             self, query,
             mode=SearchMode.TAG,
