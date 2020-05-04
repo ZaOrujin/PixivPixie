@@ -333,9 +333,8 @@ def cli(args):
         fetch_func = [queen.related_illusts]
         fetch_args = [(args.illust_id, args.limit)]
     elif args.task == 'recommended':
-        print(args.rec)
         fetch_func = [queen.recommended]
-        fetch_args = [(''.join(args.rec),)]
+        fetch_args = [(args.rec,)]
     else:
         return
 
